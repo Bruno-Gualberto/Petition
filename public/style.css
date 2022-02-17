@@ -1,0 +1,9 @@
+* {
+    margin: 0;
+    box-sizing: border-box;
+}
+
+/* PETITION PAGE */
+.petition-container canvas {
+    border: 1px solid black;
+}
