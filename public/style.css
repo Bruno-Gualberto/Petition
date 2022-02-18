@@ -5,18 +5,35 @@
 
 body {
     height: 100vh;
-    padding: 20px 15vw;
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 0 15vw;
 }
 
 body .main-image {
+    margin-top: 20px;
     height: 200px;
-    margin-bottom: 10px;
+}
+
+header {
+    width: 100vw;
+    padding: 20px;
+    text-align: center;
+    background-color: bisque;
+}
+
+footer {
+    width: 100vw;
+    text-align: center;
+    padding: 20px;
+    background-color: bisque;
 }
 
 /* PETITION PAGE */
+.petition-container {
+    height: 75vh;
+}
 
 .petition-container .petition-form {
     display: flex;
@@ -36,6 +53,7 @@ body .main-image {
     color: red;
     font-size: 20px;
     font-style: italic;
+    padding: 20px 0 0;
 }
 
 .petition-container input[type="text"] {
@@ -51,6 +69,7 @@ body .main-image {
 .petition-container .submit-button {
     align-self: center;
     width: 50%;
+    margin-top: 10px;
     padding: 10px;
     background-color: white;
     border-radius: 10px;
@@ -69,12 +88,43 @@ body .main-image {
 }
 
 .petition-container .submit-button:active {
+    transition: none;
     color: rgb(214, 214, 214);
     background-color: rgb(64, 133, 64);
     box-shadow: inset 1px 1px 3px rgb(54, 112, 54);
 }
-/* THANKS PAGE */
 
+/* THANKS PAGE */
+.thanks-container {
+    height: 75vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.thanks-container h1 {
+    padding: 20px 0;
+}
+
+.thanks-container img {
+    border: 1px solid black;
+    border-radius: 10px;
+}
+
+.thanks-container a {
+    font-size: 20px;
+    margin: 10px 0;
+}
 
 /* SIGNERS PAGE */
+.signers-container {
+    height: 75vh;
+    margin-top: 20px;
+    font-size: 20px;
+}
 
+.signers-container ul {
+    list-style-type: none;
+    padding: 0;
+    margin-top: 10px;
+}

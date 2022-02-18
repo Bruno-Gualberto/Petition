@@ -9,8 +9,6 @@ module.exports.getAllSignersNames = () => {
     // entao preciso so da propriedade chamada rows (usar destructuring), que é um array de objetos
     // com as informaçoes de cada row
     return db.query(`SELECT first, last FROM signatures`);
-    //     .then(({ rows }) => console.log(rows))
-    //     .catch(err => console.log(err));
 
     // quero exportar so a promise da query, pra que eu possa usar
     // os valores do que for retornado no outro arquivo

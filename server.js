@@ -1,4 +1,3 @@
-// basic server setup
 const express = require("express");
 const app = express();
 const db = require("./database/db");
@@ -35,8 +34,8 @@ app.post('/petition', (req, res) => {
         db.addPerson(first, last, signature)
         .then(({ rows }) => {
             req.session.signatureId = rows[0].id;
-            console.log("cookie at POST request on /petition", req.session.signatureId)
-            console.log("successfull POST made at /petition");
+            console.log("cookie signatureId at POST request on /petition:", req.session.signatureId)
+            console.log("POST request made at /petition");
             res.redirect("/petition/thanks");
         })
         .catch(err => console.log(err));

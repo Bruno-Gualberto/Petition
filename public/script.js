@@ -1,4 +1,3 @@
-// script para o canvas
 const canvas = document.querySelector(".petition-container canvas");
 const ctx = canvas.getContext("2d");
 const button = document.querySelector(".submit-button");
