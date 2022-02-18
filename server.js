@@ -18,9 +18,9 @@ app.get("/petition", (req, res) => {
 
 app.post('/petition', (req, res) => {
     const { first, last, signature } = req.body;
-    if (first === '' || last === '') {
+    if (first === '' || last === '' || signature === '') {
         res.render("petition", {
-            error: "Something went wrong! Try again."
+            error: "Ops! You must fill in all the fields bellow to proceed!"
         });
     } else {
         db.addPerson(first, last, signature)

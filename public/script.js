@@ -2,6 +2,7 @@
 const canvas = document.querySelector(".petition-container canvas");
 const ctx = canvas.getContext("2d");
 const button = document.querySelector(".submit-button");
+let is_drawn = false;
 
 const mousedownHandler = e => {
     let mouseX = e.offsetX;
@@ -32,15 +33,19 @@ const mousemoveHandler = e => {
     }
         
     canvas.addEventListener("mouseup", () => {
+        is_drawn = true;
         ctx.closePath();
         canvas.removeEventListener("mousemove", mousemoveHandler)
     });
 }
 
-const clickHandler = e => {
-    const canvasData = canvas.toDataURL();
-    console.log(canvasData)
-    document.querySelector('input[type="hidden"]').value = canvasData;
+const clickHandler = () => {
+    if (is_drawn) {
+        const canvasData = canvas.toDataURL();
+        document.querySelector('input[type="hidden"]').value = canvasData;
+    } else {
+        document.querySelector('input[type="hidden"]').value = "";
+    }
 }
 
 canvas.addEventListener("mousedown", mousedownHandler);

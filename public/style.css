@@ -3,7 +3,78 @@
     box-sizing: border-box;
 }
 
+body {
+    height: 100vh;
+    padding: 20px 15vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+body .main-image {
+    height: 200px;
+    margin-bottom: 10px;
+}
+
 /* PETITION PAGE */
+
+.petition-container .petition-form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.petition-container .error-message, input, canvas {
+    margin-bottom: 10px;
+}
+
+.petition-container form p, label {
+    margin-bottom: 3px;
+}
+
+.petition-container .error-message {
+    color: red;
+    font-size: 20px;
+    font-style: italic;
+}
+
+.petition-container input[type="text"] {
+    padding: 5px 10px;
+    letter-spacing: .5px;
+    width: 50%;
+}
+
 .petition-container canvas {
     border: 1px solid black;
 }
+
+.petition-container .submit-button {
+    align-self: center;
+    width: 50%;
+    padding: 10px;
+    background-color: white;
+    border-radius: 10px;
+    color: rgb(77, 158, 77);
+    border: 2px solid rgb(77, 158, 77);
+    box-shadow: 1px 1px 3px grey;
+    transition: all .5s;
+    cursor: pointer;
+    letter-spacing: .75px;
+    font-weight: 600;
+}
+
+.petition-container .submit-button:hover {
+    color: white;
+    background-color: rgb(77, 158, 77);
+}
+
+.petition-container .submit-button:active {
+    color: rgb(214, 214, 214);
+    background-color: rgb(64, 133, 64);
+    box-shadow: inset 1px 1px 3px rgb(54, 112, 54);
+}
+/* THANKS PAGE */
+
+
+/* SIGNERS PAGE */
+
