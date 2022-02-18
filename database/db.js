@@ -24,10 +24,14 @@ module.exports.addPerson = (first, last, signature) => {
     return db.query(`
         INSERT INTO signatures (first, last, signature)
         VALUES ($1, $2, $3)
-        RETURNING *
+        RETURNING id
     `, [first, last, signature]);
 }
 
 module.exports.countSigners = () => {
     return db.query(`SELECT COUNT(*) FROM signatures`);
+}
+
+module.exports.getSignatureId = signatureId => {
+    return db.query(`SELECT signature FROM signatures WHERE id = ${signatureId}`);
 }
