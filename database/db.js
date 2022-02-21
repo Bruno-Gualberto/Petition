@@ -1,35 +1,39 @@
-// aqui escrevo minhas queries e cada uma sera uma funçao
+// here I write my queries and each one should be a function
 const spicedPg = require("spiced-pg");
 
-// estabele uma conexao com o database
+// makes a conection with the database
 const db = spicedPg(`postgres:postgres:postgres@localhost:5432/petition`);
 
-module.exports.getAllSignersNames = () => {
-    // vai me retornar um grande objeto com varios metadatas
-    // entao preciso so da propriedade chamada rows (usar destructuring), que é um array de objetos
-    // com as informaçoes de cada row
-    return db.query(`SELECT first, last FROM signatures`);
-
-    // quero exportar so a promise da query, pra que eu possa usar
-    // os valores do que for retornado no outro arquivo
+module.exports.addUser = (first, last, email, password) => {
+    return db.query(`
+        INSERT INTO users (first, last, email, password)
+        VALUES ($1, $2, $3, $4)
+        RETURNING id
+    `, [first, last, email, password]);
 }
 
-module.exports.addPerson = (first, last, signature) => {
-    // devo adicionar os dados dessa forma pra nao sofrer SQL injection attacks
-    // cada dado que sera adicionado é $1, $2... e representa cada dado passado no array respectivamente
-    // RETURNING * vai  retornar somente o que eu adicionei
-    // posso tambem RETURNING first, last pra retornar somente first e last da row que foi adicionada
+module.exports.getAllSignersNames = () => {
+    return db.query(`SELECT first, last FROM signatures`);
+}
+
+module.exports.addPersonSignature = (signature, userId) => {
     return db.query(`
-        INSERT INTO signatures (first, last, signature)
-        VALUES ($1, $2, $3)
-        RETURNING id
-    `, [first, last, signature]);
+        INSERT INTO signatures (signature, user_id)
+        VALUES ($1, $2)
+        RETURNING user_id
+    `, [signature, userId]);
 }
 
 module.exports.countSigners = () => {
     return db.query(`SELECT COUNT(*) FROM signatures`);
 }
 
-module.exports.getSignatureId = signatureId => {
-    return db.query(`SELECT signature FROM signatures WHERE id = ${signatureId}`);
+module.exports.getSignature = userId => {
+    return db.query(`SELECT signature FROM signatures WHERE user_id = ${userId}`);
+}
+
+module.exports.getUserHashedPasswordAndId = userEmail => {
+    return db.query(`
+        SELECT password, id FROM users WHERE email = '${userEmail}'
+    `)
 }
