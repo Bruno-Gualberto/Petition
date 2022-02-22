@@ -94,13 +94,6 @@ footer {
     margin-bottom: 3px;
 }
 
-.petition-container .error-message {
-    color: red;
-    font-size: 20px;
-    font-style: italic;
-    padding: 20px 0 0;
-}
-
 .petition-container canvas {
     border: 1px solid black;
 }
@@ -127,17 +120,21 @@ footer {
     margin: 10px 0;
 }
 
-/* SIGNERS PAGE */
-.signers-container {
+/* SIGNERS AND CITY_SIGNERS PAGE */
+.signers-container, .city_signers-container {
     height: 75vh;
     margin-top: 20px;
     font-size: 20px;
 }
 
-.signers-container ul {
+.signers-container ul, .city_signers-container ul {
     list-style-type: none;
     padding: 0;
     margin-top: 10px;
+}
+
+.signers-container li, .city_signers-container li {
+    margin-bottom: 2px;
 }
 
 /* REGISTER PAGE */
@@ -186,4 +183,34 @@ footer {
 
 .login-container .register-message {
     margin-top: 10px;
+}
+
+/* PROFILE PAGE */
+.profile-container {
+    height: 75vh;
+    width: 500px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.profile-container h3 {
+    margin-bottom: 10px;
+}
+
+.profile-container .profile-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile-container input {
+    margin-bottom: 10px;
+}
+
+.profile-container label {
+    margin-bottom: 3px;
+}
+
+.profile-container .error-message {
+    padding: 0;
 }

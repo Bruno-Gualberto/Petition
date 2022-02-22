@@ -12,8 +12,15 @@ module.exports.addUser = (first, last, email, password) => {
     `, [first, last, email, password]);
 }
 
-module.exports.getAllSignersNames = () => {
-    return db.query(`SELECT first, last FROM signatures`);
+module.exports.getAllSignersInfo = () => {
+    return db.query(`
+        SELECT users.first, users.last, user_profiles.age, user_profiles.city, user_profiles.url, signatures.user_id
+        FROM users
+        FULL OUTER JOIN user_profiles
+        ON users.id = user_profiles.user_id
+        JOIN signatures
+        ON users.id = signatures.user_id;
+    `);
 }
 
 module.exports.addPersonSignature = (signature, userId) => {
@@ -29,11 +36,30 @@ module.exports.countSigners = () => {
 }
 
 module.exports.getSignature = userId => {
-    return db.query(`SELECT signature FROM signatures WHERE user_id = ${userId}`);
+    return db.query(`SELECT signature FROM signatures WHERE user_id = $1`, [userId]);
 }
 
 module.exports.getUserHashedPasswordAndId = userEmail => {
+    return db.query(`SELECT password, id FROM users WHERE email = $1`, [userEmail])
+}
+
+module.exports.addUserProfile = (age, city, url, userId) => {
     return db.query(`
-        SELECT password, id FROM users WHERE email = '${userEmail}'
-    `)
+        INSERT INTO user_profiles (age, city, url, user_id)
+        VALUES ($1, $2, $3, $4)
+        RETURNING user_id
+    `, [age, city, url, userId])
+}
+
+module.exports.getCitySigners = city => {
+    return db.query(`
+        SELECT users.first, users.last, user_profiles.age, user_profiles.url
+        FROM user_profiles 
+        FULL OUTER JOIN users
+        ON user_profiles.user_id = users.id
+        JOIN signatures
+        ON users.id = signatures.user_id
+        WHERE LOWER(user_profiles.city) = LOWER($1);
+        `, [city]
+    );
 }

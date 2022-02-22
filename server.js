@@ -18,8 +18,10 @@ app.set("view engine", "handlebars");
 app.use(express.static("./public"));
 app.use(express.urlencoded({ extended: false }));
 
+// ***** GET & POST for /REGISTER *****
+
 app.get("/petition/register", (req, res) => {
-    res.render("register")
+    req.session.userId ? res.redirect("/petition/thanks") : res.render("register");
 });
 
 app.post("/petition/register", (req, res) => {
@@ -31,7 +33,7 @@ app.post("/petition/register", (req, res) => {
             .then(({ rows }) => {
                 console.log("id after POST in /register: ", rows[0].id)
                 req.session.userId = rows[0].id;
-                res.redirect("/petition");
+                res.redirect("/petition/profile");
             })
         })
         .catch(err => {
@@ -47,8 +49,10 @@ app.post("/petition/register", (req, res) => {
     }
 });
 
+// ***** GET & POST for /LOGIN *****
+
 app.get("/petition/login", (req, res) => {
-    res.render("login");
+    req.session.userId ? res.redirect("/petition/thanks") : res.render("login");
 });
 
 app.post("/petition/login", (req, res) => {
@@ -74,12 +78,11 @@ app.post("/petition/login", (req, res) => {
         .then(() => {
             db.getSignature(userId)
             .then(({ rows }) => {
-                if (rows[0].signature) {
-                    req.session.hasSigned = true;
+                !rows[0] ? 
+                    res.redirect("/petition") 
+                    :
+                    req.session.hasSigned = true; 
                     res.redirect("/petition/thanks");
-                } else {
-                    res.redirect("/petition");
-                }
             })
             .catch((err) => {
                 console.log("error trying to get signature: ", err);
@@ -96,6 +99,8 @@ app.post("/petition/login", (req, res) => {
         });
     })
 });
+
+// ***** GET & POST for /PETITION *****
 
 app.get("/petition", (req, res) => {
     console.log("GET request at /petition");
@@ -114,7 +119,7 @@ app.post('/petition', (req, res) => {
     const { signature } = req.body;
     if (signature === '') {
         res.render("petition", {
-            error: "Ops! You must fill in all the fields bellow to proceed!"
+            error: "Ops! You must sign to proceed!"
         });
     } else {
         db.addPersonSignature(signature, req.session.userId)
@@ -127,6 +132,8 @@ app.post('/petition', (req, res) => {
         .catch(err => console.log(err));
     }
 });
+
+// ***** GET for /THANKS *****
 
 app.get("/petition/thanks", (req, res) => {
     if (req.session.hasSigned) {
@@ -151,20 +158,75 @@ app.get("/petition/thanks", (req, res) => {
     }
 });
 
+// ***** GET for /SIGNERS *****
+
 app.get("/petition/signers", (req, res) => {
     if (req.session.userId) {
-        db.getAllSignersNames()
+        db.getAllSignersInfo()
             .then(({ rows }) => {
                 console.log("GET request at /petition/signers");
                 res.render("signers", {
-                    signers: rows,
+                    helpers: {
+                        toLowerCase(text) {
+                            return text.toLowerCase();
+                        }
+                    },  
+                    signers: rows
                 });
             })
-            .catch((err) => console.log(err));
+            .catch((err) => console.log("error on getting all signers info: ", err));
     } else {
         res.redirect("/petition");
     }
 });
+
+// ***** GET & POST for /PROFILE *****
+
+app.get("/petition/profile", (req, res) => {
+    res.render("profile");
+});
+
+app.post("/petition/profile", (req, res) => {
+    console.log("POST request at /petition/profile");
+    let { age, city, url } = req.body;
+    
+    if (age === "" && city === "" && url === "") {
+        res.redirect("/petition/thanks");
+    } else {
+        if (!url.startsWith("http") && url !== "") {
+            res.render("profile", {
+                error: "Sorry, but you must put a valid url."
+            });
+        } else {
+            age === "" ? age = null : age = parseInt(age);
+
+            db.addUserProfile(age, city, url, req.session.userId)
+            .then(() => res.redirect("/petition/thanks"))
+        }
+    }
+});
+
+// ***** GET for /CITY_SIGNERS *****
+
+app.get("/petition/signers/:city", (req, res) => {
+    console.log("GET request at /petition/signers/:city")
+    const { city } = req.params
+    const cityWithCapitalLetter = city.replace(city.charAt(0), city.charAt(0).toUpperCase());
+
+    if (req.session.userId) {
+        db.getCitySigners(city)
+        .then(({ rows }) => {
+            res.render("city_signers", {
+                city: cityWithCapitalLetter,
+                signers: rows
+            })
+        })
+    } else {
+        res.redirect("/petition");
+    }
+});
+
+// ***** GET for /LOGOUT *****
 
 app.get("/petition/logout", (req, res) => {
     req.session = null;

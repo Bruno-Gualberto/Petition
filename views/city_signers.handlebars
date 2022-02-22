@@ -1,5 +1,5 @@
-<div class="signers-container">
-    <p>Here are all the people who signed for this great cause:</p>
+<div class="city_signers-container">
+    <p>Here are all the people in {{city}} who signed for this great cause:</p>
     <ul>
         {{#signers}}
         <li>
@@ -10,11 +10,7 @@
             {{/if}}
 
             {{#if age}}    
-                {{age}} &nbsp;
-            {{/if}}
-
-            {{#if city}}
-                <a href="/petition/signers/{{toLowerCase city}}">{{city}}</a>
+                {{age}}
             {{/if}}
         </li>
         {{/signers}}
