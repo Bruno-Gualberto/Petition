@@ -73,3 +73,49 @@ module.exports.getUserFullProfile = userId => {
         WHERE users.id = $1
     `, [userId]);
 }
+
+module.exports.updateUserWithPassword = (first, last, email, hashedPassword, userId) => {
+    return db.query(`
+        UPDATE users 
+        SET first = $1, last = $2, email = $3, password = $4
+        WHERE id = $5
+    `, [first, last, email, hashedPassword, userId])
+}
+
+module.exports.upsertUserProfile = (age, city, url, userId) => {
+    return db.query(`
+        INSERT INTO user_profiles (age, city, url, user_id)
+        VALUES ($1, $2, $3, $4)
+        ON CONFLICT (user_id)
+        DO UPDATE SET age = $1, city = $2, url = $3;
+    `, [age, city, url, userId]);
+}
+
+module.exports.updateUser = (first, last, email, userId) => {
+    return db.query(`
+        UPDATE users
+        SET first = $1, last = $2, email = $3
+        WHERE id = $4
+    `, [first, last, email, userId]);
+}
+
+module.exports.deleteSignature = userId => {
+    return db.query(`
+        DELETE FROM signatures
+        WHERE user_id = $1
+    `, [userId])
+}
+
+module.exports.deleteUserProfile = userId => {
+    return db.query(`
+        DELETE FROM user_profiles
+        WHERE user_id = $1
+    `, [userId]);
+}
+
+module.exports.deleteUser = userId => {
+    return db.query(`
+        DELETE FROM users
+        WHERE id = $1
+    `, [userId]);
+}

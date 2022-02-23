@@ -135,7 +135,7 @@ app.post('/petition', (req, res) => {
     }
 });
 
-// ***** GET for /THANKS *****
+// ***** GET & POST for /THANKS *****
 
 app.get("/petition/thanks", (req, res) => {
     if (req.session.hasSigned) {
@@ -158,6 +158,15 @@ app.get("/petition/thanks", (req, res) => {
     } else {
         res.redirect("/petition");
     }
+});
+
+app.post("/petition/thanks", (req, res) => {
+    db.deleteSignature(req.session.userId)
+    .then(() => {
+        req.session.hasSigned = false;
+        res.redirect("/petition");
+    })
+    .catch(err => console.log("error deleting signature: ", err));
 });
 
 // ***** GET for /SIGNERS *****
@@ -234,12 +243,61 @@ app.get("/petition/edit", (req, res) => {
     console.log("GET request at /petition/edit");
     db.getUserFullProfile(req.session.userId)
     .then(({ rows }) => {
-        console.log("rows: ", rows)
         res.render("edit", {
-            userFullProfile: rows
+            userFullProfile: rows,
+            error: "All the fields with * are mandatory"
         });
     })
     .catch(err => console.log("error getting the user profile on /edit: ", err));
+});
+
+app.post("/petition/edit", (req, res) => {
+    let { first, last, email, password, age, city, url } = req.body;
+    age === "" ? age = null : age = parseInt(age);
+    console.log("POST request at /petition/edit");
+
+    if (first && last && email) {
+        if (password) {
+            hash(password)
+            .then(hashedPassword => {
+                db.updateUserWithPassword(first, last, email, hashedPassword, req.session.userId)
+                .catch(err => console.log("error updating user data WITH password: ", err))
+            })
+            .then(() => {
+                if (url.startsWith("http") || !url) {
+                    db.upsertUserProfile(age, city, url, req.session.userId)
+                    .then(() => res.redirect("/petition/thanks"))
+                    .catch(err => console.log("error updating user profile: ", err))
+                } else {
+                    res.redirect("/petition/edit");
+                }
+            })
+            .catch(err => console.log("error hashing password at /edit: ", err))
+        } else {
+            db.updateUser(first, last, email, req.session.userId)
+            .catch(err => console.log("error updating user data WITHOUT password: ", err))
+
+            if (url.startsWith("http") || !url) {
+                db.upsertUserProfile(age, city, url, req.session.userId)
+                .then(() => res.redirect("/petition/thanks"))
+                .catch((err) => console.log("error updating user profile: ", err));
+            } else {
+                res.redirect("/petition/edit");
+            }
+        }
+    } else {
+        res.redirect("/petition/edit");
+    }
+});
+
+app.get("/petition/goodbye", (req, res) => {
+    db.deleteSignature(req.session.userId)
+    .then(() => db.deleteUserProfile(req.session.userId))
+    .then(() => db.deleteUser(req.session.userId))
+    .then(() => {
+        req.session = null;
+        res.render("deleted");
+    })
 });
 
 // ***** GET for /LOGOUT *****

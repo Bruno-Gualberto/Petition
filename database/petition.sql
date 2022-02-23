@@ -23,9 +23,3 @@ CREATE TABLE user_profiles(
   url VARCHAR,
   user_id INT NOT NULL UNIQUE REFERENCES users(id)
 );
-
--- SELECT users.first, users.last, users.email, user_profiles.age, user_profiles.city, user_profiles.url
--- FROM users
--- FULL OUTER JOIN user_profiles
--- ON users.id = user_profiles.user_id
--- WHERE users.id = cookie_userId;

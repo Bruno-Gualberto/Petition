@@ -1,14 +1,15 @@
 <div class="edit-container">
     {{#userFullProfile}}
     <h3>Edit your profile</h3>
+
     <form method="POST" class="edit-form">
-        <label for="first">First name</label>
+        <label for="first">First name<span class="mandatory">*</span></label>
         <input type="text" name="first" value="{{first}}">
 
-        <label for="last">Last name</label>
+        <label for="last">Last name<span class="mandatory">*</span></label>
         <input type="text" name="last" value="{{last}}">
 
-        <label for="email">Email</label>
+        <label for="email">Email<span class="mandatory">*</span></label>
         <input type="email" name="email" value={{email}}>
 
         <label for="password">Password</label>
@@ -21,9 +22,12 @@
         <input type="text" name="city" value={{city}}>
 
         <label for="url">Website</label>
-        <input type="text" name="url" value={{url}}>
+        <input type="url" pattern="http.*" name="url" value={{url}}>
 
+        
+        <p class="error-message">{{../error}}</p>
         <button class="submit-button" type="submit">EDIT</button>
+        <a href="/petition/goodbye" class="submit-button delete-button">DELETE ACCOUNT</a>
     </form>
     {{/userFullProfile}}
 </div>

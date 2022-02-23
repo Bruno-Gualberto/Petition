@@ -2,16 +2,16 @@
     <p class="error-message">{{error}}</p>
 
     <form class="register-form" method="POST">
-        <label for="first">First name</label>
+        <label for="first">First name<span class="mandatory">*</span></label>
         <input type="text" name="first">
 
-        <label for="last">Last name</label>
+        <label for="last">Last name<span class="mandatory">*</span></label>
         <input type="text" name="last">
 
-        <label for="email">Email</label>
+        <label for="email">Email<span class="mandatory">*</span></label>
         <input type="email" name="email">
 
-        <label for="password">Password</label>
+        <label for="password">Password<span class="mandatory">*</span></label>
         <input type="password" name="password">
 
         <button class="submit-button" type="submit">SUBMIT</button>
