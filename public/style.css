@@ -214,3 +214,33 @@ footer {
 .profile-container .error-message {
     padding: 0;
 }
+
+/* EDIT PAGE */
+.edit-container {
+    height: 75vh;
+    width: 500px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.edit-container h3 {
+    margin-bottom: 10px;
+}
+
+.edit-container .edit-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.edit-container input {
+    margin-bottom: 10px;
+}
+
+.edit-container label {
+    margin-bottom: 3px;
+}
+
+.edit-container .submit-button {
+    margin-bottom: 20px;
+}

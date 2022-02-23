@@ -1,0 +1,29 @@
+<div class="edit-container">
+    {{#userFullProfile}}
+    <h3>Edit your profile</h3>
+    <form method="POST" class="edit-form">
+        <label for="first">First name</label>
+        <input type="text" name="first" value="{{first}}">
+
+        <label for="last">Last name</label>
+        <input type="text" name="last" value="{{last}}">
+
+        <label for="email">Email</label>
+        <input type="email" name="email" value={{email}}>
+
+        <label for="password">Password</label>
+        <input type="password" name="password">
+
+        <label for="age">Age</label>
+        <input type="number" name="age" value={{age}}>
+
+        <label for="city">City</label>
+        <input type="text" name="city" value={{city}}>
+
+        <label for="url">Website</label>
+        <input type="text" name="url" value={{url}}>
+
+        <button class="submit-button" type="submit">EDIT</button>
+    </form>
+    {{/userFullProfile}}
+</div>

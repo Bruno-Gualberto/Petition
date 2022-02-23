@@ -52,6 +52,7 @@ app.post("/petition/register", (req, res) => {
 // ***** GET & POST for /LOGIN *****
 
 app.get("/petition/login", (req, res) => {
+    console.log("GET request at /login");
     req.session.userId ? res.redirect("/petition/thanks") : res.render("login");
 });
 
@@ -68,29 +69,30 @@ app.post("/petition/login", (req, res) => {
     .then(() => {
         compare(password, hashedPassword)
         .then(isMatch => {
-            isMatch ? 
-                req.session.userId = userId 
-                :
+            if (!isMatch) {
                 res.render("login", {
                     error: "Ops, something went wrong! Please try again."
                 });
-        })
-        .then(() => {
-            db.getSignature(userId)
-            .then(({ rows }) => {
-                !rows[0] ? 
-                    res.redirect("/petition") 
-                    :
-                    req.session.hasSigned = true; 
-                    res.redirect("/petition/thanks");
-            })
-            .catch((err) => {
-                console.log("error trying to get signature: ", err);
-                res.render("login", {
-                    error: "Ops, something went wrong! Please try again.",
+            } else {
+                req.session.userId = userId 
+
+                db.getSignature(userId)
+                .then(({ rows }) => {
+                    !rows[0] ? 
+                        res.redirect("/petition") 
+                        :
+                        req.session.hasSigned = true; 
+                        res.redirect("/petition/thanks");
                 })
-            });
+                .catch((err) => {
+                    console.log("error trying to get signature: ", err);
+                    res.render("login", {
+                        error: "Ops, something went wrong! Please try again.",
+                    })
+                });
+            }
         })
+        .catch(err => console.log("error on match: ", err))
     })
     .catch(err => {
         console.log("error getting password: ", err);
@@ -224,6 +226,20 @@ app.get("/petition/signers/:city", (req, res) => {
     } else {
         res.redirect("/petition");
     }
+});
+
+// ***** GET & POST for /EDIT *****
+
+app.get("/petition/edit", (req, res) => {
+    console.log("GET request at /petition/edit");
+    db.getUserFullProfile(req.session.userId)
+    .then(({ rows }) => {
+        console.log("rows: ", rows)
+        res.render("edit", {
+            userFullProfile: rows
+        });
+    })
+    .catch(err => console.log("error getting the user profile on /edit: ", err));
 });
 
 // ***** GET for /LOGOUT *****

@@ -63,3 +63,13 @@ module.exports.getCitySigners = city => {
         `, [city]
     );
 }
+
+module.exports.getUserFullProfile = userId => {
+    return db.query(`
+        SELECT users.first, users.last, users.email, user_profiles.age, user_profiles.city, user_profiles.url
+        FROM users
+        FULL OUTER JOIN user_profiles
+        ON users.id = user_profiles.user_id
+        WHERE users.id = $1
+    `, [userId]);
+}

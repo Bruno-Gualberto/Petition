@@ -24,22 +24,8 @@ CREATE TABLE user_profiles(
   user_id INT NOT NULL UNIQUE REFERENCES users(id)
 );
 
--- SELECT users.first, users.last, user_profiles.age, user_profiles.url, signatures.user_id
+-- SELECT users.first, users.last, users.email, user_profiles.age, user_profiles.city, user_profiles.url
 -- FROM users
 -- FULL OUTER JOIN user_profiles
 -- ON users.id = user_profiles.user_id
--- JOIN signatures
--- ON users.id = signatures.user_id;
-
--- SELECT users.first, users.last, user_profiles.age, user_profiles.url
--- FROM user_profiles WHERE LOWER(city) = LOWER($1)
--- FULL OUTER JOIN users
--- ON user_profiles.user_id = users.id
-
-SELECT users.first, users.last, user_profiles.age, user_profiles.url
-FROM user_profiles 
-FULL OUTER JOIN users
-ON user_profiles.user_id = users.id
-JOIN signatures
-ON users.id = signatures.user_id
-WHERE LOWER(user_profiles.city) = LOWER($1);
+-- WHERE users.id = cookie_userId;
