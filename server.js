@@ -249,4 +249,4 @@ app.get("/petition/logout", (req, res) => {
     res.redirect("/petition/login");
 });
 
-app.listen(8080, () => console.log("Server listening..."));
+app.listen(process.env.PORT || 8080, () => console.log("Server listening..."));

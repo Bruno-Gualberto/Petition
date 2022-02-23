@@ -2,7 +2,7 @@
 const spicedPg = require("spiced-pg");
 
 // makes a conection with the database
-const db = spicedPg(`postgres:postgres:postgres@localhost:5432/petition`);
+const db = spicedPg(process.env.DATABASE_URL || `postgres:postgres:postgres@localhost:5432/petition`);
 
 module.exports.addUser = (first, last, email, password) => {
     return db.query(`
