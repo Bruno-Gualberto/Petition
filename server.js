@@ -4,6 +4,7 @@ const db = require("./database/db");
 const cookieSession = require("cookie-session");
 const { engine } = require("express-handlebars");
 const { compare, hash } = require("./bc");
+const { requireLoggedInUser, requireLoggedOutUser, requireNoSignature, requireSignature, requireFromRegister } = require("./middleware");
 
 app.use(cookieSession({
         secret: `I'm always angry.`,
@@ -20,44 +21,46 @@ app.use(express.urlencoded({ extended: false }));
 
 // ***** GET & POST for /REGISTER *****
 
-app.get("/petition/register", (req, res) => {
-    req.session.userId ? res.redirect("/petition/thanks") : res.render("register");
+app.get("/petition/register", requireLoggedOutUser, requireNoSignature, (req, res) => {
+        console.log("GET request at /register");
+        res.render("register");
 });
 
-app.post("/petition/register", (req, res) => {
-    const { first, last, email, password } = req.body; 
-    if ( first !== "" || last !== "" || email !== "" || password !== "" ) {
+app.post("/petition/register", requireLoggedOutUser, requireNoSignature, (req, res) => {
+    const { first, last, email, password } = req.body;
+    if (first !== "" || last !== "" || email !== "" || password !== "") {
         hash(password)
-        .then(hashedPassoword => {
-            db.addUser(first, last, email, hashedPassoword)
-            .then(({ rows }) => {
-                console.log("id after POST in /register: ", rows[0].id)
-                req.session.userId = rows[0].id;
-                req.session.fromRegister = true;
-                res.redirect("/petition/profile");
+            .then((hashedPassoword) => {
+                db.addUser(first, last, email, hashedPassoword).then(
+                    ({ rows }) => {
+                        console.log("id after POST in /register: ", rows[0].id);
+                        req.session.userId = rows[0].id;
+                        req.session.fromRegister = true;
+                        res.redirect("/petition/profile");
+                    }
+                );
             })
-        })
-        .catch(err => {
-            console.log("err hashing password", err);
-            res.render("register", {
-                error: "Ops, something went wrong! Please try again."
+            .catch((err) => {
+                console.log("err hashing password", err);
+                res.render("register", {
+                    error: "Ops, something went wrong! Please try again.",
+                });
             });
-        })
     } else {
         res.render("register", {
-            error: "Ops, something went wrong! Please try again."
+            error: "Ops, something went wrong! Please try again.",
         });
     }
 });
 
 // ***** GET & POST for /LOGIN *****
 
-app.get("/petition/login", (req, res) => {
+app.get("/petition/login", requireLoggedOutUser, requireNoSignature, (req, res) => {
     console.log("GET request at /login");
-    req.session.userId ? res.redirect("/petition/thanks") : res.render("login");
+    res.render("login");
 });
 
-app.post("/petition/login", (req, res) => {
+app.post("/petition/login", requireLoggedOutUser, requireNoSignature,(req, res) => {
     let hashedPassword = "";
     let userId;
     const { email, password } = req.body;
@@ -105,20 +108,14 @@ app.post("/petition/login", (req, res) => {
 
 // ***** GET & POST for /PETITION *****
 
-app.get("/petition", (req, res) => {
+app.get("/petition", requireLoggedInUser, requireNoSignature, (req, res) => {
     console.log("GET request at /petition");
     console.log("req.session at GET /petition route: ", req.session);
-
-    if (!req.session.userId) {
-        res.redirect("/petition/login");
-    } else if (req.session.hasSigned) {
-        res.redirect("/petition/thanks") 
-    } else {
-        res.render("petition");
-    }
+    
+    res.render("petition");
 });
 
-app.post('/petition', (req, res) => {
+app.post('/petition', requireLoggedInUser, requireNoSignature, (req, res) => {
     const { signature } = req.body;
     if (signature === '') {
         res.render("petition", {
@@ -138,30 +135,26 @@ app.post('/petition', (req, res) => {
 
 // ***** GET & POST for /THANKS *****
 
-app.get("/petition/thanks", (req, res) => {
-    if (req.session.hasSigned) {
-        let signatureURL;
-        db.getSignature(req.session.userId)
+app.get("/petition/thanks", requireLoggedInUser, requireSignature, (req, res) => {
+    let signatureURL;
+    db.getSignature(req.session.userId)
+    .then(({ rows }) => {
+        signatureURL = rows[0].signature;
+    })
+    .then(() => {
+        db.countSigners()
         .then(({ rows }) => {
-            signatureURL = rows[0].signature;
+            console.log("GET request at /petition/thanks -> count of signers: ", rows[0].count);
+            res.render("thanks", {
+                numberOfSigners: rows[0].count,
+                signatureURL: signatureURL
+            });
         })
-        .then(() => {
-            db.countSigners()
-            .then(({ rows }) => {
-                console.log("GET request at /petition/thanks -> count of signers: ", rows[0].count);
-                res.render("thanks", {
-                    numberOfSigners: rows[0].count,
-                    signatureURL: signatureURL
-                });
-            })
-        })
-        .catch(err => console.log(err));
-    } else {
-        res.redirect("/petition");
-    }
+    })
+    .catch(err => console.log(err));
 });
 
-app.post("/petition/thanks", (req, res) => {
+app.post("/petition/thanks", requireLoggedInUser, requireSignature, (req, res) => {
     db.deleteSignature(req.session.userId)
     .then(() => {
         delete req.session.hasSigned;
@@ -172,36 +165,27 @@ app.post("/petition/thanks", (req, res) => {
 
 // ***** GET for /SIGNERS *****
 
-app.get("/petition/signers", (req, res) => {
-    if (req.session.userId) {
-        db.getAllSignersInfo()
-            .then(({ rows }) => {
-                console.log("GET request at /petition/signers");
-                res.render("signers", {
-                    helpers: {
-                        toLowerCase(text) {
-                            return text.toLowerCase();
-                        }
-                    },  
-                    signers: rows
-                });
-            })
-            .catch((err) => console.log("error on getting all signers info: ", err));
-    } else {
-        res.redirect("/petition");
-    }
+app.get("/petition/signers", requireLoggedInUser, requireSignature, (req, res) => {
+    db.getAllSignersInfo()
+        .then(({ rows }) => {
+            console.log("GET request at /petition/signers");
+            res.render("signers", {
+                helpers: {
+                    toLowerCase(text) {
+                        return text.toLowerCase();
+                    }
+                },  
+                signers: rows
+            });
+        })
+        .catch((err) => console.log("error on getting all signers info: ", err));
 });
 
 // ***** GET & POST for /PROFILE *****
 
-app.get("/petition/profile", (req, res) => {
-    if (!req.session.fromRegister) {
-        return res.redirect("/petition/thanks")
-    } else {
-        delete req.session.fromRegister;
-        return res.render("profile");
-    } 
-        
+app.get("/petition/profile", requireFromRegister,(req, res) => {
+    delete req.session.fromRegister;
+    res.render("profile");
 });
 
 app.post("/petition/profile", (req, res) => {
@@ -226,27 +210,23 @@ app.post("/petition/profile", (req, res) => {
 
 // ***** GET for /CITY_SIGNERS *****
 
-app.get("/petition/signers/:city", (req, res) => {
+app.get("/petition/signers/:city", requireLoggedInUser, requireSignature, (req, res) => {
     console.log("GET request at /petition/signers/:city")
     const { city } = req.params
     const cityWithCapitalLetter = city.replace(city.charAt(0), city.charAt(0).toUpperCase());
 
-    if (req.session.userId) {
-        db.getCitySigners(city)
-        .then(({ rows }) => {
-            res.render("city_signers", {
-                city: cityWithCapitalLetter,
-                signers: rows
-            })
+    db.getCitySigners(city)
+    .then(({ rows }) => {
+        res.render("city_signers", {
+            city: cityWithCapitalLetter,
+            signers: rows
         })
-    } else {
-        res.redirect("/petition");
-    }
+    })
 });
 
 // ***** GET & POST for /EDIT *****
 
-app.get("/petition/edit", (req, res) => {
+app.get("/petition/edit", requireLoggedInUser, requireSignature, (req, res) => {
     console.log("GET request at /petition/edit");
     db.getUserFullProfile(req.session.userId)
     .then(({ rows }) => {
@@ -258,7 +238,7 @@ app.get("/petition/edit", (req, res) => {
     .catch(err => console.log("error getting the user profile on /edit: ", err));
 });
 
-app.post("/petition/edit", (req, res) => {
+app.post("/petition/edit", requireLoggedInUser, requireSignature, (req, res) => {
     let { first, last, email, password, age, city, url } = req.body;
     age === "" ? age = null : age = parseInt(age);
     console.log("POST request at /petition/edit");
@@ -299,7 +279,7 @@ app.post("/petition/edit", (req, res) => {
 
 // *****GET for /GOODBYE *****
 
-app.get("/petition/goodbye", (req, res) => {
+app.get("/petition/goodbye", requireLoggedInUser, (req, res) => {
     db.deleteSignature(req.session.userId)
     .then(() => db.deleteUserProfile(req.session.userId))
     .then(() => db.deleteUser(req.session.userId))
@@ -311,7 +291,7 @@ app.get("/petition/goodbye", (req, res) => {
 
 // ***** GET for /LOGOUT *****
 
-app.get("/petition/logout", (req, res) => {
+app.get("/petition/logout", requireLoggedInUser, (req, res) => {
     req.session = null;
     res.redirect("/petition/login");
 });
