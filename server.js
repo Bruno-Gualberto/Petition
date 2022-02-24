@@ -33,6 +33,7 @@ app.post("/petition/register", (req, res) => {
             .then(({ rows }) => {
                 console.log("id after POST in /register: ", rows[0].id)
                 req.session.userId = rows[0].id;
+                req.session.fromRegister = true;
                 res.redirect("/petition/profile");
             })
         })
@@ -194,7 +195,13 @@ app.get("/petition/signers", (req, res) => {
 // ***** GET & POST for /PROFILE *****
 
 app.get("/petition/profile", (req, res) => {
-    res.render("profile");
+    if (!req.session.fromRegister) {
+        return res.redirect("/petition/thanks")
+    } else {
+        req.session.fromRegister = null;
+        return res.render("profile");
+    } 
+        
 });
 
 app.post("/petition/profile", (req, res) => {

@@ -55,7 +55,7 @@ input {
     color: rgb(77, 158, 77);
     border: 2px solid rgb(77, 158, 77);
     box-shadow: 1px 1px 3px grey;
-    transition: all .5s;
+    transition: all .25s;
     cursor: pointer;
     letter-spacing: .75px;
     font-weight: 600;
@@ -71,6 +71,7 @@ input {
     transition: none;
     color: rgb(214, 214, 214);
     background-color: rgb(64, 133, 64);
+    border: 2px solid rgb(64, 133, 64);
     box-shadow: inset 1px 1px 3px rgb(54, 112, 54);
 }
 
@@ -154,6 +155,7 @@ footer {
     transition: none;
     color: rgb(214, 214, 214);
     background-color: rgb(153, 13, 13);
+    border: 2px solid rgb(153, 13, 13);
     box-shadow: inset 1px 1px 3px rgb(109, 9, 9);
 }
 
@@ -266,6 +268,8 @@ footer {
 
 .edit-container .error-message {
     padding: 0;
+    font-size: 16px;
+    font-style: normal;
 }
 
 .edit-container .edit-form {
@@ -300,6 +304,7 @@ footer {
 .edit-container .delete-button:active {
     transition: none;
     color: rgb(214, 214, 214);
+    border: 2px solid rgb(153, 13, 13);
     background-color: rgb(153, 13, 13);
     box-shadow: inset 1px 1px 3px rgb(109, 9, 9);
 }
