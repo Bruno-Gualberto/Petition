@@ -2,6 +2,8 @@
     {{#userFullProfile}}
     <h3>Edit your profile</h3>
 
+    <p class="error-message">{{../error}}</p>
+
     <form method="POST" class="edit-form">
         <label for="first">First name<span class="mandatory">*</span></label>
         <input type="text" name="first" value="{{first}}">
@@ -25,7 +27,7 @@
         <input type="url" pattern="http.*" name="url" value={{url}}>
 
         
-        <p class="error-message">{{../error}}</p>
+        <p class="mandatory-message">All the fields with * are mandatory</p>
         <button class="submit-button" type="submit">SAVE CHANGES</button>
         <a href="/petition/goodbye" class="submit-button delete-button">DELETE ACCOUNT</a>
     </form>

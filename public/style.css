@@ -83,6 +83,33 @@ footer {
     margin-top: 20px;
 }
 
+/* HOME PAGE */
+.home-container {
+    height: 75vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 500px;
+}
+
+.home-container h1 {
+    margin: 20px 0;
+}
+
+.home-container .buttons-container {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+.home-container .submit-button {
+    font-size: 16px;
+    text-decoration: none;
+    width: 100%;
+    text-align: center;
+}
+
 /* PETITION PAGE */
 .petition-container {
     height: 75vh;
@@ -259,7 +286,7 @@ footer {
     height: 75vh;
     width: 500px;
     text-align: center;
-    margin-top: 20px;
+    margin: 20px 0;
 }
 
 .edit-container h3 {
@@ -268,8 +295,11 @@ footer {
 
 .edit-container .error-message {
     padding: 0;
-    font-size: 16px;
-    font-style: normal;
+    margin: 10px 0;
+}
+
+.edit-container .mandatory-message {
+    color: red;
 }
 
 .edit-container .edit-form {

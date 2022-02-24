@@ -33,13 +33,13 @@ router.post("/profile", (req, res) => {
 });
 
 // ***** GET & POST for /EDIT *****
-
+let myRows;
 router.get("/edit", requireLoggedInUser, requireSignature, (req, res) => {
     console.log("GET request at /petition/edit");
     db.getUserFullProfile(req.session.userId).then(({ rows }) => {
+        myRows = rows;
         return res.render("edit", {
-            userFullProfile: rows,
-            error: "All the fields with * are mandatory",
+            userFullProfile: rows
         });
     })
     .catch(err => console.log("error getting the user profile on /edit: ", err));
@@ -62,27 +62,35 @@ router.post("/edit", requireLoggedInUser, requireSignature, (req, res) => {
                         })
                         .catch(err => console.log("error updating user profile: ", err));
                         } else {
-                            return res.redirect("/petition/edit");
+                            return res.render("edit", {
+                                userFullProfile: myRows,
+                                error: "Ops! Something went wrong!"
+                            });
                         }
                 })
                 .catch(err => console.log("error hashing password at /edit: ", err));
-            } else {
-                db.updateUser(first, last, email, req.session.userId)
-                .catch(err => console.log("error updating user data WITHOUT password: ", err));
-
-                if (url.startsWith("http") || !url) {
-                    db.upsertUserProfile(age, city, url, req.session.userId).then(() => {
-                        return res.redirect("/petition/thanks")  
-                    })
-                    .catch(err => console.log("error updating user profile: ", err));
-                } else {
-                    return res.redirect("/petition/edit");
-                }
-            }
         } else {
-            return res.redirect("/petition/edit");
+            db.updateUser(first, last, email, req.session.userId)
+            .catch(err => console.log("error updating user data WITHOUT password: ", err));
+
+            if (url.startsWith("http") || !url) {
+                db.upsertUserProfile(age, city, url, req.session.userId).then(() => {
+                    return res.redirect("/petition/thanks")  
+                })
+                .catch(err => console.log("error updating user profile: ", err));
+            } else {
+                return res.render("edit", {
+                    userFullProfile: myRows,
+                    error: "Ops! Something went wrong!"
+                });
+            }
         }
+    } else {
+        return res.render("edit", {
+            userFullProfile: myRows,
+            error: "Ops! Something went wrong!",
+        });
     }
-);
+});
 
 module.exports = router;
