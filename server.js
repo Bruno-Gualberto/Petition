@@ -164,7 +164,7 @@ app.get("/petition/thanks", (req, res) => {
 app.post("/petition/thanks", (req, res) => {
     db.deleteSignature(req.session.userId)
     .then(() => {
-        req.session.hasSigned = false;
+        delete req.session.hasSigned;
         res.redirect("/petition");
     })
     .catch(err => console.log("error deleting signature: ", err));
@@ -198,7 +198,7 @@ app.get("/petition/profile", (req, res) => {
     if (!req.session.fromRegister) {
         return res.redirect("/petition/thanks")
     } else {
-        req.session.fromRegister = null;
+        delete req.session.fromRegister;
         return res.render("profile");
     } 
         
@@ -296,6 +296,8 @@ app.post("/petition/edit", (req, res) => {
         res.redirect("/petition/edit");
     }
 });
+
+// *****GET for /GOODBYE *****
 
 app.get("/petition/goodbye", (req, res) => {
     db.deleteSignature(req.session.userId)
