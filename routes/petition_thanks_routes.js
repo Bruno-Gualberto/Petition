@@ -4,7 +4,6 @@ const db = require("../database/db");
 const { requireLoggedInUser, requireNoSignature, requireSignature } = require("../middleware");
 
 // ***** GET and POST for /PETITION *****
-
 router.get("/", requireLoggedInUser, requireNoSignature, (req, res) => {
     console.log("GET request at /petition");
     console.log("req.session at GET /petition route: ", req.session);

@@ -2,43 +2,102 @@
 * {
     margin: 0;
     box-sizing: border-box;
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-family: 'Roboto Condensed', sans-serif;
 }
 
 body {
     height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0 15vw;
-}
-
-body .main-image {
-    margin-top: 20px;
-    height: 200px;
-}
-
-header {
-    width: 100vw;
-    padding: 20px;
-    text-align: center;
-    background-color: bisque;
 }
 
 input {
-    padding: 5px 10px;
+    padding: 7px 14px;
     letter-spacing: .75px;
-    width: 50%;
-    border: 1px solid black;
+    font-size: 16px;
+    width: 100%;
+    border: 1px solid rgb(155, 155, 155);
+    border-radius: 3px;
+}
+
+input:focus {
+    box-shadow: 0 0 6px 1px rgba(0, 0, 255, 0.5);
+    border: 1px solid white;
+    outline: none;
+}
+
+.container {
+    height: 100vh;
+}
+
+.title-container .logout {
+    align-self: center;
+    text-decoration: none;
+    background-color: rgb(0, 98, 155);
+    text-align: center;
+    padding: 10px 30px;
     border-radius: 5px;
+    color: white;
+    transition: all .25s;
+}
+
+.title-container .logout:hover {
+    background-color: rgb(0, 71, 111);
+    color: rgb(230, 230, 230);
+}
+
+.title-container .logout:active {
+    transition: none;
+    background-color: rgb(0, 66, 104);
+    box-shadow: inset 1px 1px 3px rgb(0, 52, 82);
+}
+
+.title-container {
+    background-image: linear-gradient(rgba(0, 71, 111, .9), 25%, rgba(0, 0, 0, .5)),
+        url("./images/pineapple-pizza.jpg");
+    background-origin: border-box;
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: white;
+    padding: 2% 4%;
+    display: flex;
+    justify-content: space-between;
+    width: 100vw;
+}
+
+.title-container.logout-user {
+    flex-direction: column;
+}
+
+.title-container h1 {
+    font-size: 40px;
+}
+
+.title-container p {
+    font-size: 20px;
+}
+
+.flex-container {
+    display: flex;
+    justify-content: space-between;
+    background-color: white;
+    padding: 3% 5%;
+}
+
+.img-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 75%;
+}
+
+.img-container img {
+    width: 180px;
 }
 
 .error-message {
     color: red;
-    text-align: center;
     font-size: 20px;
     font-style: italic;
-    padding: 20px 0 0;
+    margin: 20px 0;
 }
 
 .mandatory {
@@ -47,19 +106,18 @@ input {
 
 .submit-button {
     align-self: center;
-    width: 50%;
+    width: 100%;
     margin-top: 10px;
     padding: 10px;
     background-color: white;
-    border-radius: 10px;
+    border-radius: 5px;
     color: rgb(77, 158, 77);
     border: 2px solid rgb(77, 158, 77);
-    box-shadow: 1px 1px 3px grey;
     transition: all .25s;
     cursor: pointer;
     letter-spacing: .75px;
     font-weight: 600;
-    font-size: 16px;
+    font-size: 20px;
 }
 
 .submit-button:hover {
@@ -75,53 +133,192 @@ input {
     box-shadow: inset 1px 1px 3px rgb(54, 112, 54);
 }
 
-footer {
-    width: 100vw;
-    text-align: center;
-    padding: 20px;
-    background-color: bisque;
-    margin-top: 20px;
-}
-
 /* HOME PAGE */
 .home-container {
-    height: 75vh;
+    height: 100vh;
+    color: white;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    width: 500px;
+}
+
+.home-container .title-container {
+    padding: 4% 4% 0;
 }
 
 .home-container h1 {
-    margin: 20px 0;
+    font-size: 70px;
+    line-height: 70px;
+}
+.home-container .title-container p {
+    margin-top: 10px;
+    font-size: 26px;
+    font-weight: 300;
+    margin-bottom: 4%;
 }
 
-.home-container .buttons-container {
+.home-container .content-container {
+    display: flex;
+    justify-content: space-between;
+    height: 100%;
+    padding: 3% 5%;
+    background-color: white;
+    color: black;
+    font-size: 20px;
+}
+
+.home-container .text-container p:nth-child(3), .home-container .text-container p:nth-child(4)  {
     margin-top: 20px;
+}
+
+.home-container .text-container .buttons-container {
+    width: 100%;
+    margin-top: 30px;
     display: flex;
     flex-direction: column;
-    width: 50%;
 }
 
 .home-container .submit-button {
-    font-size: 16px;
+    font-size: 20px;
     text-decoration: none;
-    width: 100%;
+    align-self: unset;
     text-align: center;
+    color: rgb(255, 206, 0);
+    border: 2px solid rgb(255, 206, 0);
+    width: 50%;
+    transition: all .5;
+}
+
+.home-container .submit-button:hover {
+    background-color: rgb(255, 206, 0);
+    color: white;
+}
+
+.home-container .submit-button:active {
+    transition: none;
+    box-shadow: inset 1px 1px 3px rgb(212, 170, 0);
+    border: 2px solid rgb(212, 170, 0);
+    background-color: rgb(230, 184, 0);
+}
+
+.home-container .submit-button.yellow-bck {
+    color: white;
+    background-color: rgb(255, 206, 0);
+    transition: all .5;
+}
+
+.home-container .submit-button.yellow-bck:hover {
+    background-color: rgb(230, 184, 0);
+    border: 2px solid rgb(230, 184, 0);
+    color: rgb(245, 245, 245);
+}
+
+.home-container .submit-button.submit-button.yellow-bck:active {
+    box-shadow: inset 1px 1px 3px rgb(212, 170, 0);
+    border: 2px solid rgb(212, 170, 0);
+
+}
+
+.home-container .img-container {
+    width: 40%;
+    align-items: flex-start;
+}
+
+.home-container .img-container .images {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.home-container .img-container img {
+    width: 20%;
+}
+
+.home-container .img-container .foods {
+    width: 25%;
+}
+
+.home-container .img-container .images {
+    font-size: 70px;
 }
 
 /* PETITION PAGE */
 .petition-container {
-    height: 75vh;
+    height: 100vh;
+}
+
+.petition-container .flex-container {
+    display: flex;
+    justify-content: space-between;
+    background-color: white;
+    padding: 3% 5%;
+}
+
+.petition-container .flex-container .content-container {
+    flex-basis: 500px;
+}
+
+.petition-container .content-container .numbers {
+    display: flex;
+}
+
+.petition-container .content-container .numbers div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid rgb(255, 206, 0);
+    color: rgb(255, 206, 0);
+    margin-right: 10px;
+    font-weight: 700;
+}
+
+.petition-container .content-container .numbers .with-bck {
+    background-color: rgb(255, 206, 0);
+    color: white;
+}
+
+.petition-container .text-container {
+    margin-top: 20px;
 }
 
 .petition-container .petition-form {
     display: flex;
     flex-direction: column;
-    align-items: center;
 }
 
-.petition-container .error-message, .petition-container input, canvas {
+.petition-container .petition-form label {
+    font-weight: 700;
+}
+
+.petition-container .error-message {
+    margin-bottom: 10px;
+}
+
+.petition-container .petition-form .p-text {
+    margin-bottom: 10px;
+}
+
+.petition-container .petition-form .submit-button {
+    align-self: unset;
+
+}
+
+.petition-container .img-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 75%;
+}
+
+.petition-container .img-container img {
+    width: 180px;
+}
+
+.petition-container .error-message, .petition-container input {
     margin-bottom: 10px;
 }
 
@@ -130,42 +327,54 @@ footer {
 }
 
 .petition-container canvas {
+    margin: 10px 0;
     border: 1px solid black;
 }
 
 /* THANKS PAGE */
 .thanks-container {
-    height: 75vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+   height: 100vh;
 }
 
-.thanks-container h1 {
-    padding: 20px 0;
+.thanks-container .flex-container {
+    display: flex;
+    justify-content: space-between;
+    background-color: white;
+    padding: 3% 5%;
+}
+
+.thanks-container .content-container {
+    flex-basis: 500px;
+}
+
+.thanks-container h2 {
+    font-size: 30px;
+    margin-bottom: 30px;
 }
 
 .thanks-container img {
     border: 1px solid black;
-    border-radius: 10px;
+    border-radius: 5px;
 }
 
 .thanks-container form {
+    margin-top: 10px;
     width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
 }
 
-.thanks-container a {
+.thanks-container .content-container p {
     font-size: 20px;
-    margin: 10px 0;
-    text-align: center;
+    margin: 5px 0 20px;
 }
 
-.thanks-container .submit-button {
+.thanks-container form .submit-button {
     font-size: 16px;
+    margin: 5px 0;
     text-decoration: none;
+    text-align: center;
 }
 
 .thanks-container .delete-button {
@@ -186,33 +395,83 @@ footer {
     box-shadow: inset 1px 1px 3px rgb(109, 9, 9);
 }
 
+.thanks-container .img-container {
+    width: 75%;
+}
+
 /* SIGNERS AND CITY_SIGNERS PAGE */
 .signers-container, .city_signers-container {
-    height: 75vh;
-    margin-top: 20px;
+    height: 100vh;
     font-size: 20px;
 }
 
-.signers-container ul, .city_signers-container ul {
-    list-style-type: none;
-    padding: 0;
-    margin-top: 10px;
+.signers-container .content-container .all-signers, .city_signers-container .content-container .all-signers {
+    margin-top: 20px;
 }
 
-.signers-container li, .city_signers-container li {
-    margin-bottom: 2px;
+.signers-container .content-container .signers, .city_signers-container .content-container .signers {
+    margin-top: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.city_signers-container .content-container .all-signers {
+    width: 40%;
 }
 
 /* REGISTER PAGE */
 .register-container {
-    height: 75vh;
-    width: 500px;
+    height: 100vh;
+}
+
+.register-container .flex-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 3% 5%;
+}
+
+.register-container .flex-container .content-container {
+    width: 25%;
+}
+
+.register-container .content-container .numbers {
+    display: flex;
+}
+
+.register-container .content-container .numbers div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid rgb(255, 206, 0);
+    color: rgb(255, 206, 0);
+    margin-right: 10px;
+    font-weight: 700;
+}
+
+.register-container .content-container .numbers .with-bck {
+    background-color: rgb(255, 206, 0);
+    color: white;
+}
+
+.register-container .text-container {
+    margin-top: 20px;
+}
+
+.register-container .text-container .p-text {
+    margin-top: 20px;
 }
 
 .register-container .register-form {
     display: flex;
     flex-direction: column;
-    align-items: center;
+}
+
+.register-container .register-form label {
+    font-weight: 700;
 }
 
 .register-container .error-message, .register-container input {
@@ -223,70 +482,147 @@ footer {
     margin-bottom: 3px;
 }
 
+.register-container .register-form .submit-button {
+    align-self: unset;
+
+}
+
 .register-container .login-message {
     margin-top: 10px;
 }
 
-/* LOGIN PAGE */
-.login-container {
-    height: 75vh;
-    width: 500px;
+.register-container .img-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 75%;
 }
 
-.login-container .login-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+.register-container .img-container img {
+    width: 180px;
 }
+
+/* LOGIN PAGE */
+.login-container .flex-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 3% 5%;
+}
+
+.login-container .flex-container .content-container {
+    width: 25%;
+}   
 
 .login-container .error-message, .login-container input {
-    margin-bottom: 10px;
+    margin: 3px 0 10px;
 }
 
-.login-container form p, label {
-    margin-bottom: 3px;
+.login-container .login-form label {
+    font-weight: 700;
 }
 
 .login-container .register-message {
     margin-top: 10px;
 }
 
+.login-container .img-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 75%;
+}
+
+.login-container .img-container img {
+    width: 180px;
+}
+
 /* PROFILE PAGE */
 .profile-container {
-    height: 75vh;
-    width: 500px;
-    text-align: center;
+    height: 100vh;
+}
+
+.profile-container .flex-container {
+    display: flex;
+    justify-content: space-between;
+    background-color: white;
+    padding: 3% 5%;
+}
+
+.profile-container .flex-container .content-container {
+    width: 25%;
+}
+
+.profile-container .content-container .numbers {
+    display: flex;
+}
+
+.profile-container .content-container .numbers div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid rgb(255, 206, 0);
+    color: rgb(255, 206, 0);
+    margin-right: 10px;
+    font-weight: 700;
+}
+
+.profile-container .content-container .numbers .with-bck {
+    background-color: rgb(255, 206, 0);
+    color: white;
+}
+
+.profile-container .text-container {
     margin-top: 20px;
 }
 
-.profile-container h3 {
-    margin-bottom: 10px;
+.profile-container .text-container .p-text {
+    margin-top: 20px;
 }
 
 .profile-container .profile-form {
     display: flex;
     flex-direction: column;
-    align-items: center;
 }
 
-.profile-container input {
+.profile-container .profile-form label {
+    font-weight: 700;
+}
+
+.profile-container .error-message, .profile-container input {
     margin-bottom: 10px;
 }
 
-.profile-container label {
+.profile-container form p, label {
     margin-bottom: 3px;
 }
 
-.profile-container .error-message {
-    padding: 0;
+.profile-container .profile-form .submit-button {
+    align-self: unset;
+
+}
+
+.profile-container .img-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 75%;
+}
+
+.profile-container .img-container img {
+    width: 180px;
 }
 
 /* EDIT PAGE */
 .edit-container {
-    height: 75vh;
-    width: 500px;
-    text-align: center;
-    margin: 20px 0;
+    height: 100vh;
+}
+
+.edit-container .content-container {
+    width: 25%;
 }
 
 .edit-container h3 {
@@ -305,7 +641,6 @@ footer {
 .edit-container .edit-form {
     display: flex;
     flex-direction: column;
-    align-items: center;
 }
 
 .edit-container input {
@@ -316,11 +651,8 @@ footer {
     margin-bottom: 3px;
 }
 
-.edit-container .submit-button {
-    margin-bottom: 10px;
-}
-
 .edit-container .delete-button {
+    text-align: center;
     text-decoration: none;
     color: rgb(177, 15, 15);
     border: 2px solid rgb(177, 15, 15);
@@ -337,4 +669,19 @@ footer {
     border: 2px solid rgb(153, 13, 13);
     background-color: rgb(153, 13, 13);
     box-shadow: inset 1px 1px 3px rgb(109, 9, 9);
+}
+
+/* GOODBYE PAGE */
+.deleted-container {
+    height: 100vh;
+    font-size: 20px;
+}
+
+.deleted-container h3 {
+    font-size: 24px;
+    margin-bottom: 5px; 
+}
+
+.deleted-container .content-container {
+    flex-basis: 500px;
 }

@@ -1,17 +1,45 @@
-<div class="profile-container">
-    <h3>Please let us know a bit more about yourself</h3>
-    <form method="POST" class="profile-form">
-        <label for="age">Age</label>
-        <input type="number" name="age">
+<div class="profile-container container">
+    <div class="title-container">
+        <div class="title-text">
+            <h1>ABOLITION TO PINEAPPLE ON PIZZA!</h1>
+            <p>Pineapple is wonderful, the problem is when it is on pizza</p>
+        </div>
+        <a href="/petition/logout" class="logout">LOGOUT</a>
+    </div>
 
-        <label for="city">City</label>
-        <input type="text" name="city">
+    <div class="flex-container">
+        <div class="content-container">
 
-        <label for="url">Website</label>
-        <input type="url" pattern="http.*" name="url">
+            <div class="numbers">
+                <div>1</div>
+                <div class="with-bck">2</div>
+                <div>3</div>
+            </div>
 
-        <p class="error-message">{{error}}</p>
+            <div class="text-container">
+                <p>Sign the petition to abolish <strong>Hawaiian Pizza</strong> now.</p>
+                <p class="p-text"><strong>Please let us know a bit more about yourself</strong></p>
+            </div>
 
-        <button class="submit-button" type="submit">CONTINUE</button>
-    </form>
+            <p class="error-message">{{error}}</p>
+
+            <form class="profile-form" method="POST">
+                <label for="age">Age</label>
+                <input placeholder="Type here" type="number" name="age" >
+
+                <label for="city">City</label>
+                <input placeholder="Type here" type="text" name="city" >
+
+                <label for="url">Website</label>
+                <input placeholder="Type here" type="url" name="url" >
+
+                <button class="submit-button" type="submit">CONTINUE</button>
+
+            </form>
+        </div>
+        <div class="img-container">
+            <img src="/images/nonna.png">
+        </div>
+    </div>
+
 </div>

@@ -1,14 +1,27 @@
-<div class="login-container">
-    <p class="error-message">{{error}}</p>
-    <form method="POST" class="login-form">
-        <label for="email">Email</label>
-        <input type="email" name="email">
+<div class="login-container container">
+    <div class="title-container logout-user">
+        <h1>ABOLITION TO PINEAPPLE ON PIZZA!</h1>
+        <p>Pineapple is wonderful, the problem is when it is on pizza</p>
+    </div>
 
-        <label for="password">Password</label>
-        <input type="password" name="password">
+    <div class="flex-container">
+        <div class="content-container">
+            <p><strong>Please log in</strong></p>
+            <p class="error-message">{{error}}</p>
+            <form method="POST" class="login-form">
+                <label for="email">Email<span class="mandatory">*</span></label>
+                <input type="email" name="email" placeholder="Type here">
 
-        <button class="submit-button" type="submit">SUBMIT</button>
+                <label for="password">Password<span class="mandatory">*</span></label>
+                <input type="password" name="password" placeholder="Type here">
 
-        <p class="register-message">If you are not a member yet, please <a href="/petition/register">register</a></p>
-    </form>
+                <button class="submit-button" type="submit">SUBMIT</button>
+
+                <p class="register-message">If you are not a member yet, please <a href="/petition/register"><strong>register</strong></a></p>
+            </form>
+        </div>
+        <div class="img-container">
+            <img src="/images/nonna.png">
+        </div>
+    </div>
 </div>

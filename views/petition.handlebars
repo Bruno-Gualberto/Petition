@@ -1,12 +1,39 @@
-<div class="petition-container">
-    <p class="error-message">{{error}}</p>
+<div class="petition-container container">
+    <div class="title-container">
+        <div class="title-text">
+            <h1>ABOLITION TO PINEAPPLE ON PIZZA!</h1>
+            <p>Pineapple is wonderful, the problem is when it is on pizza</p>
+        </div>
+        <a href="/petition/logout" class="logout">LOGOUT</a>
+    </div>
 
-    <form class="petition-form" method="POST">
-        <input type="hidden" name="signature">
-        <p>Signature</p>
-        <canvas height="150" width="500"></canvas>
-    
-        <button class="submit-button" type="submit">SUBMIT</button>
-    </form>
+    <div class="flex-container">
+        <div class="content-container">
+
+            <div class="numbers">
+                <div>1</div>
+                <div>2</div>
+                <div class="with-bck">3</div>
+            </div>
+
+            <div class="text-container">
+                <p>Sign the petition to abolish <strong>Hawaiian Pizza</strong> now.</p>
+            </div>
+
+            <p class="error-message">{{error}}</p>
+
+            <form class="petition-form" method="POST">
+                <input type="hidden" name="signature">
+                <p class="p-text"><strong>Your signature</strong></p>
+                <canvas height="150" width="500"></canvas>
+            
+                <button class="submit-button" type="submit">SUBMIT</button>
+            </form>
+
+        </div>
+        <div class="img-container">
+            <img src="/images/nonna.png">
+        </div>
+    </div>
 </div>
 <script src="/script.js"></script>

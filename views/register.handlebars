@@ -1,21 +1,47 @@
 <div class="register-container">
-    <p class="error-message">{{error}}</p>
+    <div class="title-container logout-user">
+        <h1>ABOLITION TO PINEAPPLE ON PIZZA!</h1>
+        <p>Pineapple is wonderful, the problem is when it is on pizza</p>
+    </div>
 
-    <form class="register-form" method="POST">
-        <label for="first">First name<span class="mandatory">*</span></label>
-        <input type="text" name="first">
+    <div class="flex-container">
+        <div class="content-container">
 
-        <label for="last">Last name<span class="mandatory">*</span></label>
-        <input type="text" name="last">
+            <div class="numbers">
+                <div class="with-bck">1</div>
+                <div>2</div>
+                <div>3</div>
+            </div>
 
-        <label for="email">Email<span class="mandatory">*</span></label>
-        <input type="email" name="email">
+            <div class="text-container">
+                <p>Sign the petition to abolish <strong>Hawaiian Pizza</strong> now.</p>
+                <p>Register to sign.</p>
+                <p class="p-text"><strong>First, a few basic information about you</strong></p>
+            </div>
 
-        <label for="password">Password<span class="mandatory">*</span></label>
-        <input type="password" name="password">
+            <p class="error-message">{{error}}</p>
 
-        <button class="submit-button" type="submit">SUBMIT</button>
+            <form class="register-form" method="POST">
+                <label for="first">First name<span class="mandatory">*</span></label>
+                <input type="text" name="first" placeholder="Type here">
 
-        <p class="login-message">If you are already a member, please <a href="/petition/login">log in</a></p>
-    </form>
+                <label for="last">Last name<span class="mandatory">*</span></label>
+                <input type="text" name="last" placeholder="Type here">
+
+                <label for="email">Email<span class="mandatory">*</span></label>
+                <input type="email" name="email" placeholder="Type here">
+
+                <label for="password">Password<span class="mandatory">*</span></label>
+                <input type="password" name="password" placeholder="Type here">
+
+                <button class="submit-button" type="submit">SUBMIT</button>
+
+                <p class="login-message">If you are already a member, please <a href="/petition/login"><strong>log in</strong></a></p>
+            </form>
+        </div>
+        <div class="img-container">
+            <img src="/images/nonna.png">
+        </div>
+    </div>
+
 </div>

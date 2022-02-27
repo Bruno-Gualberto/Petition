@@ -5,11 +5,10 @@ const { hash } = require("../bc");
 const { requireLoggedInUser, requireSignature, requireFromRegister } = require("../middleware");
 
 // ***** GET & POST for /PROFILE *****
-
 router.get("/profile", requireFromRegister, (req, res) => {
-    delete req.session.fromRegister;
-    return res.render("profile");
-});
+        delete req.session.fromRegister;
+        return res.render("profile");
+    });
 
 router.post("/profile", (req, res) => {
     console.log("POST request at /petition/profile");

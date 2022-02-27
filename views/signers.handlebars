@@ -1,22 +1,43 @@
-<div class="signers-container">
-    <p>Here are all the people who signed for this great cause:</p>
-    <ul>
-        {{#signers}}
-        <li>
-            {{#if url}}
-                <a href={{url}} target="_blank">{{first}} {{last}}</a> &nbsp;
-            {{else}}
-                {{first}} {{last}} &nbsp;
-            {{/if}}
+<div class="signers-container container">
+    <div class="title-container">
+        <div class="title-text">
+            <h1>ABOLITION TO PINEAPPLE ON PIZZA!</h1>
+            <p>Pineapple is wonderful, the problem is when it is on pizza</p>
+        </div>
+        <a href="/petition/logout" class="logout">LOGOUT</a>
+    </div>
 
-            {{#if age}}    
-                {{age}} &nbsp;
-            {{/if}}
+    <div class="flex-container">
+        <div class="content-container">
+            <p>Here are all the people who signed for this great cause:</p>
+            <div class="all-signers">
+            {{#signers}}
+                <div class="signers">
+                    <div class="names">
+                        {{#if url}}
+                            <p><a href={{url}} target="_blank">{{first}} {{last}}</a></p>
+                        {{else}}
+                            <p>{{first}} {{last}}</p>
+                        {{/if}}
+                    </div>
 
-            {{#if city}}
-                <a href="/petition/signers/{{toLowerCase city}}">{{city}}</a>
-            {{/if}}
-        </li>
-        {{/signers}}
-    </ul>
+                    <div class="ages">
+                        {{#if age}}    
+                            <p>{{age}}</p>
+                        {{/if}}
+                    </div>
+
+                    <div class="cities">
+                        {{#if city}}
+                            <p><a href="/petition/signers/{{toLowerCase city}}">{{city}}</a></p>
+                        {{/if}}
+                    </div>
+                </div>
+            {{/signers}}
+            </div>
+        </div>
+        <div class="img-container">
+            <img src="/images/nonna.png">
+        </div>
+    </div>
 </div>

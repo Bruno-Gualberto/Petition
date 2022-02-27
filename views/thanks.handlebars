@@ -1,10 +1,25 @@
-<div class="thanks-container">
-    <h1>Thank you for sign our important cause!</h1>
-    <img src={{signatureURL}} alt="Your signature">
-    <a href="/petition/signers"><p>Check here to see all {{numberOfSigners}} signers!</p></a>
-    
-    <form method="POST">
-        <a class="submit-button" href="/petition/edit">EDIT PROFILE</a>
-        <button class="submit-button delete-button" type="submit">DELETE SIGNATURE</button>
-    </form>
+<div class="thanks-container container">
+    <div class="title-container">
+        <div class="title-text">
+            <h1>ABOLITION TO PINEAPPLE ON PIZZA!</h1>
+            <p>Pineapple is wonderful, the problem is when it is on pizza</p>
+        </div>
+        <a href="/petition/logout" class="logout">LOGOUT</a>
+    </div>
+
+    <div class="flex-container">
+        <div class="content-container">
+            <h2>Thank you for sign our important cause!</h1>
+            <img src={{signatureURL}} alt="Your signature">
+            <a href="/petition/signers"><p>Check here to see all {{numberOfSigners}} signers!</p></a>
+            
+            <form method="POST">
+                <a class="submit-button" href="/petition/edit">EDIT PROFILE</a>
+                <button class="submit-button delete-button" type="submit">DELETE SIGNATURE</button>
+            </form>
+        </div>
+        <div class="img-container">
+            <img src="/images/nonna.png">
+        </div>
+    </div>
 </div>
